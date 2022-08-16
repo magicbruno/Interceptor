@@ -13009,7 +13009,8 @@ textarea.form-control-lg {
   font-weight: 900 !important;
   line-height: 1;
   color: var(--bs-body-color);
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-fill-color: transparent;
+  /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: var(--bs-body-color);
 }
@@ -13032,6 +13033,40 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: #f8f9fa;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.light-titles h1,
+.light-titles h2,
+.light-titles h3,
+.light-titles h4,
+.light-titles h5,
+.light-titles h6,
+.light-titles .h1,
+.light-titles .h2,
+.light-titles .h3,
+.light-titles .h4,
+.light-titles .h5,
+.light-titles .h6 {
+  font-weight: 300 !important;
+}
+
+.normal-titles h1,
+.normal-titles h2,
+.normal-titles h3,
+.normal-titles h4,
+.normal-titles h5,
+.normal-titles h6,
+.normal-titles .h1,
+.normal-titles .h2,
+.normal-titles .h3,
+.normal-titles .h4,
+.normal-titles .h5,
+.normal-titles .h6 {
+  font-weight: 400 !important;
+}
+
+pre {
+  border: 1px solid var(--bs-gray-700);
 }
 
 .loader {
