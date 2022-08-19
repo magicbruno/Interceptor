@@ -8,7 +8,7 @@ Intersection information is needed for many reasons, such as:
 - Reporting of visibility of advertisements in order to calculate ad revenues.
 - Deciding whether or not to perform tasks or animation processes based on whether or not the user will see the result.
 
-Interceptor, to  achieve its purpose, use [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) supported by all modern browser (see [caniuse.com](https://caniuse.com/?search=intersectionObserver)).
+Interceptor, to  achieve its purpose, use [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) supported by all modern browsers (see [caniuse.com](https://caniuse.com/?search=intersectionObserver)).
 
 In case Intersection Observer isn't available, interceptor will handle *observed elements* like they was always visible in the viewport.
 
@@ -34,19 +34,19 @@ First you must create an instance of Interceptor that will perform the task of *
 ```
 const interceptor = new Interceptor();
 ```
-Target elements must have the attribute `data-interceptor="name"` where *name* is an arbitrary *interceptor name* that you must assign. Element with the same *interceptor name* will share the same action.
+Target elements must have the attribute `data-interceptor="name"` where *name* is an arbitrary *interceptor name* that you must assign. Elements with the same *interceptor name* will share the same action.
 
 To add an element or a group of elements to the interceptor watch list, you must apply the `Interceptor.observe()` method to the created instance
 ```
 interceptor.observe(name, action);
 ```
-where *name* is the value assigned to data-interceptor attribute and action may be a `string` of a `function` and will be performed every time there will be a change in target element intersection with the document viewport.
+where *name* is the value assigned to data-interceptor attribute and action may be a `string` or a `function` and will be performed every time there will be a change in target element intersection with the document viewport.
 
 If action is a `string` it will be interpreted as the name of class that will be toggled on element visibility (added to the target element when it is in viewport and removed when it is offscreen).
 
 If action is a `function` it will be called with two parameter: the target element itself and the intersection ratio that is the percentage of target element visible in the viewport as a number between 0.0 (not in viewport) e 1.0 (entirely in viewport).
 
-In this example Interceptor is used to start animation of same *skill bars* when become visible in the viewport:
+In this example Interceptor is used to start animation of every *skill bar* when become visible in the viewport. See full example [here](demo.html):
 ```
 interceptor.observe('skill', (target, ratio) => {
       let percent = target.dataset.percent;
@@ -58,9 +58,9 @@ interceptor.observe('skill', (target, ratio) => {
     }
 });
 ```
-All elements with data-interceptor='skill' are added to the watch list. When the action is called if the element is entirely in the document viewport (ratio === 1) the bar width is animated to percentage obtained from data-percentage attribute, if it is offscreen (ratio === 0) the bar width is set to 0.
+All elements with `data-interceptor="skill"` are added to the watch list. When the action is called if the element is entirely in the document viewport (ratio === 1) the bar width is animated to percentage obtained from data-percentage attribute, if it is offscreen (ratio === 0) the bar width is set to 0.
 
-Instead of repeatedly invoking the `Interceptor.observe` method you can achieve the same result by calling the constructor with an array of objects as the first parameter. Every object will have two properties `name` and `action` corresponding to `Interceptor.observe` method parameters.
+Instead of repeatedly invoking the `Interceptor.observe` method you can achieve the same result by calling the constructor with an array of objects as the first parameter. Every object in the array will have two properties `name` and `action` corresponding to `Interceptor.observe` method parameters.
 
 ### Thresholds
 Rather than reporting every infinitesimal change in how much a target element is visible, the Intersection Observer API uses thresholds. 
@@ -77,13 +77,13 @@ For example, if you want to be informed every time a target's visibility passes 
 ### rootMargin
 rootMargin is a string which specifies a set of offsets to add to the root's bounding_box when calculating intersections, effectively shrinking or growing the root for calculation purposes. The syntax is approximately the same as that for the CSS margin property.
 
-When you create an interceptor, you can pass rootMargine as the third parameter. 
+When you create an interceptor, you can pass a rootMargin as the third parameter. 
 
 The default is "0px 0px 0px 0px".
 
 # References
 ## Constructor
-### Interceprtor()
+### Interceptor()
 #### Syntax
 ```
 new Interceptor(); 
@@ -93,7 +93,7 @@ new Interceptor(watchList, threshold, rootMargin);
 ```
 The Interceptor() constructor creates and returns a new Interceptor object.
 
-If watchList is specified all elements group defined by objects name property will watched and associated with corresponding actions, if not it is defaulted to [].
+If watchList is specified, all elements groups defined by the name property of all objects in the array will be watched and will be associated with corresponding actions, if not it is defaulted to [].
 
 The threshold, if specified, are checked to ensure that they're all in the range 0.0 and 1.0 inclusive, and the threshold list is sorted in ascending numeric order. If the threshold list is empty, it's set to the array [0.0,1.0].
 
@@ -108,7 +108,7 @@ The rootMargin, if specified, is checked to ensure it's syntactically correct. I
 
 |Property|Type|Description|
 |---|---|---|
-|`name`|`string`|Identify all element with attribute data-interceptor=*name*|
+|`name`|`string`|Identify all elements with attribute data-interceptor=*name*|
 |`action`|`string` or `function`|If `string` it will be interpreted as the name of class that will be toggled on element visibility (added to the target element when it is in viewport and removed when it is offscreen). If action is a `function` it will be called with two parameter: the target element itself and the intersection ratio that is the percentage of target element visible in the viewport as a number between 0.0 (not in viewport) e 1.0 (entirely in viewport).|
 
 ## Methods
@@ -135,7 +135,7 @@ The Interceptor method unobserve() instructs the Interceptor to stop observing t
 
 |Parameter|Type|Description|
 |---|---|---|
-|`name`|`string`|Remove all element with attribute data-interceptor=*name* from the set of target elements|
+|`name`|`string`|Remove all elements with attribute data-interceptor=*name* from the set of target elements|
 
 ### Interceptor.disconnect()
 #### Syntax

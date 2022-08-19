@@ -7,7 +7,7 @@
 <li>Reporting of visibility of advertisements in order to calculate ad revenues.</li>
 <li>Deciding whether or not to perform tasks or animation processes based on whether or not the user will see the result.</li>
 </ul>
-<p>Interceptor, to  achieve its purpose, use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">Intersection Observer API</a> supported by all modern browser (see <a href="https://caniuse.com/?search=intersectionObserver">caniuse.com</a>).</p>
+<p>Interceptor, to  achieve its purpose, use <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">Intersection Observer API</a> supported by all modern browsers (see <a href="https://caniuse.com/?search=intersectionObserver">caniuse.com</a>).</p>
 <p>In case Intersection Observer isn&#39;t available, interceptor will handle <em>observed elements</em> like they was always visible in the viewport.</p>
 <h2 id="getting-started">Getting started</h2>
 <p>You can load Interceptor directly by CDN</p>
@@ -26,14 +26,14 @@
 <p>First you must create an instance of Interceptor that will perform the task of <em>observing</em> one or more elements and associating an action with them.</p>
 <pre><code>const interceptor = new Interceptor();
 </code></pre>
-<p>Target elements must have the attribute <code>data-interceptor=&quot;name&quot;</code> where <em>name</em> is an arbitrary <em>interceptor name</em> that you must assign. Element with the same <em>interceptor name</em> will share the same action.</p>
+<p>Target elements must have the attribute <code>data-interceptor=&quot;name&quot;</code> where <em>name</em> is an arbitrary <em>interceptor name</em> that you must assign. Elements with the same <em>interceptor name</em> will share the same action.</p>
 <p>To add an element or a group of elements to the interceptor watch list, you must apply the <code>Interceptor.observe()</code> method to the created instance</p>
 <pre><code>interceptor.observe(name, action);
 </code></pre>
-<p>where <em>name</em> is the value assigned to data-interceptor attribute and action may be a <code>string</code> of a <code>function</code> and will be performed every time there will be a change in target element intersection with the document viewport.</p>
+<p>where <em>name</em> is the value assigned to data-interceptor attribute and action may be a <code>string</code> or a <code>function</code> and will be performed every time there will be a change in target element intersection with the document viewport.</p>
 <p>If action is a <code>string</code> it will be interpreted as the name of class that will be toggled on element visibility (added to the target element when it is in viewport and removed when it is offscreen).</p>
 <p>If action is a <code>function</code> it will be called with two parameter: the target element itself and the intersection ratio that is the percentage of target element visible in the viewport as a number between 0.0 (not in viewport) e 1.0 (entirely in viewport).</p>
-<p>In this example Interceptor is used to start animation of same <em>skill bars</em> when become visible in the viewport:</p>
+<p>In this example Interceptor is used to start animation of every <em>skill bar</em> when become visible in the viewport. See full example <a href="demo.html">here</a>:</p>
 <pre><code>interceptor.observe(&#39;skill&#39;, (target, ratio) =&gt; {
       let percent = target.dataset.percent;
       if (ratio === 0) {
@@ -44,8 +44,8 @@
     }
 });
 </code></pre>
-<p>All elements with data-interceptor=&#39;skill&#39; are added to the watch list. When the action is called if the element is entirely in the document viewport (ratio === 1) the bar width is animated to percentage obtained from data-percentage attribute, if it is offscreen (ratio === 0) the bar width is set to 0.</p>
-<p>Instead of repeatedly invoking the <code>Interceptor.observe</code> method you can achieve the same result by calling the constructor with an array of objects as the first parameter. Every object will have two properties <code>name</code> and <code>action</code> corresponding to <code>Interceptor.observe</code> method parameters.</p>
+<p>All elements with <code>data-interceptor=&quot;skill&quot;</code> are added to the watch list. When the action is called if the element is entirely in the document viewport (ratio === 1) the bar width is animated to percentage obtained from data-percentage attribute, if it is offscreen (ratio === 0) the bar width is set to 0.</p>
+<p>Instead of repeatedly invoking the <code>Interceptor.observe</code> method you can achieve the same result by calling the constructor with an array of objects as the first parameter. Every object in the array will have two properties <code>name</code> and <code>action</code> corresponding to <code>Interceptor.observe</code> method parameters.</p>
 <h3 id="thresholds">Thresholds</h3>
 <p>Rather than reporting every infinitesimal change in how much a target element is visible, the Intersection Observer API uses thresholds. </p>
 <p>For default Interceptor use as thresholds [0,1.0] that is changes are reported only when the target element is entirely inside the viewport and when it is entirely offscreen.</p>
@@ -57,11 +57,11 @@
 </blockquote>
 <h3 id="rootmargin">rootMargin</h3>
 <p>rootMargin is a string which specifies a set of offsets to add to the root&#39;s bounding_box when calculating intersections, effectively shrinking or growing the root for calculation purposes. The syntax is approximately the same as that for the CSS margin property.</p>
-<p>When you create an interceptor, you can pass rootMargine as the third parameter. </p>
+<p>When you create an interceptor, you can pass a rootMargin as the third parameter. </p>
 <p>The default is &quot;0px 0px 0px 0px&quot;.</p>
 <h1 id="references">References</h1>
 <h2 id="constructor">Constructor</h2>
-<h3 id="interceprtor">Interceprtor()</h3>
+<h3 id="interceptor-1">Interceptor()</h3>
 <h4 id="syntax">Syntax</h4>
 <pre><code>new Interceptor(); 
 new Interceptor(watchList);
@@ -69,7 +69,7 @@ new Interceptor(watchList, threshold);
 new Interceptor(watchList, threshold, rootMargin);
 </code></pre>
 <p>The Interceptor() constructor creates and returns a new Interceptor object.</p>
-<p>If watchList is specified all elements group defined by objects name property will watched and associated with corresponding actions, if not it is defaulted to [].</p>
+<p>If watchList is specified, all elements groups defined by the name property of all objects in the array will be watched and will be associated with corresponding actions, if not it is defaulted to [].</p>
 <p>The threshold, if specified, are checked to ensure that they&#39;re all in the range 0.0 and 1.0 inclusive, and the threshold list is sorted in ascending numeric order. If the threshold list is empty, it&#39;s set to the array [0.0,1.0].</p>
 <p>The rootMargin, if specified, is checked to ensure it&#39;s syntactically correct. If not specified, or an empty string, the default is 0px 0px 0px 0px.</p>
 <h4 id="parameters">Parameters</h4>
@@ -109,7 +109,7 @@ new Interceptor(watchList, threshold, rootMargin);
 <tbody><tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
-<td>Identify all element with attribute data-interceptor=<em>name</em></td>
+<td>Identify all elements with attribute data-interceptor=<em>name</em></td>
 </tr>
 <tr>
 <td><code>action</code></td>
@@ -160,7 +160,7 @@ new Interceptor(watchList, threshold, rootMargin);
 <tbody><tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
-<td>Remove all element with attribute data-interceptor=<em>name</em> from the set of target elements</td>
+<td>Remove all elements with attribute data-interceptor=<em>name</em> from the set of target elements</td>
 </tr>
 </tbody></table>
 <h3 id="interceptordisconnect">Interceptor.disconnect()</h3>

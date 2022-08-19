@@ -28,6 +28,13 @@ function documentation() {
     .pipe(dest('docs'))
 }
 
+function documentationIt() {
+  return src('LEGGIMI.md')
+    .pipe(markdown())
+    .pipe(rename('documentation-it.xml'))
+    .pipe(dest('docs'))
+}
+
 function sasscompress() {
   return src(sassSrc)
     .pipe(autoprefixer())
@@ -83,9 +90,10 @@ function creadist() {
   )
 }
 
-exports.default = series(sass, sasscompress, compressjs, creadist, documentation);
+exports.default = series(sass, sasscompress, compressjs, creadist, documentation, documentationIt);
 exports.sass = sass;
 exports.compressjs = compressjs;
 exports.sasscompress = sasscompress;
 exports.creadist = creadist;
 exports.documentation = documentation;
+exports.documentationIt = documentationIt;
